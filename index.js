@@ -719,7 +719,8 @@ function adapter(uri, opts) {
       // if there is no response for x second, return result
       var timeout = setTimeout(function() {
         var request = self.requests[requestid];
-        if (fn) process.nextTick(fn.bind(null, new Error('timeout reached while waiting for customRequest response'), request.replies));
+        var reps = (request && request.replies) ? request.replies : null;
+        if (fn) process.nextTick(fn.bind(null, new Error('timeout reached while waiting for customRequest response'), reps));
         delete self.requests[requestid];
       }, self.requestsTimeout);
 
